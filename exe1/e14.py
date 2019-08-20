@@ -14,5 +14,5 @@ while(l<m):
     valorWhile *= n
     l += 1
 
-print(valorFor)
-print(valorWhile)
+print('For: %d' % valorFor)
+print('While: %d' % valorWhile)
