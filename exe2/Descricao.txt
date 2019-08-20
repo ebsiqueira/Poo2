@@ -1,0 +1,29 @@
+Nomes: Eduardo Borges Siqueira e Bernardo Gomes Duarte
+
+Sistema para Pizzaria
+
+O sistema será responsável pela administração de uma pizzaria. A pizzaria oferecerá diversos
+sabores e tamanhos de pizza e bebidas.
+- Pizzas 
+    - até 3 sabores (depende do tamanho) [calabresa, frango, pepperoni, bacon, portuguesa, 4 queijos, brocolis]
+
+- Bebidas: 
+    - Cerveja[lata e long neck]
+    - Refrigerante[lata, 600ml, 1L, 2L]
+    - Suco[copo e jarra]
+    - Garrafa de agua
+
+- Funcionários:
+    - Atendente de telefone[1]
+    - Caixa[1]
+    - Gerente[1]
+    - Pizzaiolo[1]
+    - Garçom[3]
+    - Entregadores[2]
+
+- Permissões:
+    - Somente CAIXA estão autorizados a mexer com dinheiro
+    - Somente PIZZAIOLO, GARÇOM e ENTREGADOR estão autorizados a mexer com as pizzas, porém
+    somente o PIZZAIOLO pode inferir nos sabores das pizzas
+    - O gerente poderá inferir nas funções de Atendente, Caixa e Garçom se for necessário.
+    
