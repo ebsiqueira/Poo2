@@ -3,7 +3,6 @@ months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', '
 'Novembro', 'Dezembro']
 
 n = int(input('Digite o número do dia: '))
-
 d = days[n%7]
 
 
@@ -22,7 +21,7 @@ elif(n>90 and n<=120):
 elif(n>120 and n<=151):
     i = n - 120
     m = months[4]
-elif(n>151 and n<=81):
+elif(n>151 and n<=181):
     i = n - 151
     m = months[5]
 elif(n>181 and n<=212):
