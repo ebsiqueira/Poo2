@@ -19,7 +19,7 @@ sabores e tamanhos de pizza e bebidas.
     - Gerente[1]
     - Pizzaiolo[1]
     - Garçom[3]
-    - Entregadores[2]
+    - Entregador[2]
 
 - Permissões:
     - Somente CAIXA estão autorizados a mexer com dinheiro

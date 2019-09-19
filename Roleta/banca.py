@@ -1,6 +1,7 @@
 class Banca:
-	"""docstring for Banca"""
-	def __init__(self, arg):
-		super(Banca, self).__init__()
-		self.arg = arg
+	def __init__(self):
+		self.fichas = 1000
+
+	def receber(fichas):
+		self.fichas += fichas
 		
