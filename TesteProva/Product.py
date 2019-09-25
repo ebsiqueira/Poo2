@@ -1,3 +1,4 @@
+# Classe responsável pela descrição do produto
 class Product:
      def __init__(self, barCode, price, name, type):
          self.barCode = barCode
