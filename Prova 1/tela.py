@@ -1,21 +1,26 @@
 ###############################################
-#   Sistema Genérico para Supermercado v0.1   #
-#   Eduardo Borges Siqueira                   #
-#   Bernardo Gomes Duarte                     #
+#   Sistema Genérico para Papelaria (Prova 1) #
+#   Eduardo Borges Siqueira                   #                  
 #   INE5404 - POO2                            #
-#   24/09/2019                                #
+#   26/09/2019                                #
 ###############################################
+
+# Usuário padrão: root
+# Senha padrão: toor
 
 # Bibliotecas e classes
 from tkinter import *
-from Supermarket import Supermarket
-from Product import Product
+from tkinter import messagebox
+from Papelaria import Papelaria
+from Produto import Produto
 
 # Criação do supermercado
-supermarket = Supermarket()
+papelaria = Papelaria()
 
 # Criação da janela principal
 janelaPrincipal = Tk()
+# Título da janela principal
+janelaPrincipal.title('Papelaria')
 
 # Criação dos frames da janela principal
 frameInicial = Frame(janelaPrincipal)
@@ -32,45 +37,60 @@ def sair():
     janelaPrincipal.destroy()
 
 # Função de validação de login
-def enviarFormulario(username, password):
-    if(supermarket.tryLogin(username, password)):
+def enviarFormulario(usuario, senha):
+    if(papelaria.realizaLogin(usuario, senha)):
         raise_frame(framePrincipal)
+    else:
+        messagebox.showerror("ERRO", "O nome de usuário e/ou a senha são inválidos!")
 
 # Função de troca de frame para a consulta de produtos
 def consultaProduto():
     raise_frame(frameConsulta)
 
+# Função de cadastro de produtos
+def cadastraProduto():
+        papelaria.registraProduto(stringCodigo.get(), preco.get(), nome.get(), stringFuncao.get())
+        messagebox.showinfo("Cadastro", "Cadastro do produto realizado com sucesso!")
+        raise_frame(framePrincipal)
+
 # Função que retorna as informações do produto, baseado no código de barras
-def retornaInfo(barCode, nomeString, codigoString, categoriaString, precoString):
-    produto = supermarket.consulteProduct(barCode)
-    print('BarCode sendo passado:', barCode)
+def retornaInfo(codigo, nomeString, codigoString, categoriaString, precoString):
+    produto = papelaria.consultaProduto(codigo)
     if(produto == 0):
+        messagebox.showerror("ERRO", "Não foram encontrados produtos com esse código!")
         return 0
-    print(produto)
-    nomeString.set('Nome:'+produto.name)
-    codigoString.set('Codigo:'+produto.barCode)
-    categoriaString.set('Tipo: '+produto.type)
-    precoString.set('Preco: '+produto.price)
+    if(produto.tipo == 'Brinquedo'):
+        nomeString.set('Nome: '+produto.nome)
+        codigoString.set('Codigo: '+produto.codigo)
+        categoriaString.set('Tipo: '+produto.tipo)
+        precoString.set('Preco: R$'+produto.preco)
+        brindeString.set('Você ganhou um brinde!!!')
+    else:
+        nomeString.set('Nome: '+produto.nome)
+        codigoString.set('Codigo: '+produto.codigo)
+        categoriaString.set('Tipo: '+produto.tipo)
+        precoString.set('Preco: R$'+produto.preco)
 
 # Laço de "empilhamento" dos frames na tela principal
 for frame in (frameInicial, framePrincipal, frameProduto, frameConsulta):
+    # Coloca todos os frames na tela, em todas as orientações
     frame.grid(row=0, column=0, sticky='news')
 
 # Frame Inicial #
 # Campo de usuário
-stringUsername = StringVar(value='Username')
-username = Entry(frameInicial, textvariable=stringUsername)
-username.pack(pady=15, padx=15, side=TOP)
+stringUsuario = StringVar(value='Usuario')
+usuario = Entry(frameInicial, textvariable=stringUsuario)
+usuario.pack(pady=15, padx=15, side=TOP)
 
 # Campo de senha
-stringPassword = StringVar(value="********")
-password = Entry(frameInicial, textvariable=stringPassword, show='*')
-password.pack(pady=15, padx=15, side=TOP)
+stringSenha = StringVar(value="********")
+senha = Entry(frameInicial, textvariable=stringSenha, show='*')
+senha.pack(pady=15, padx=15, side=TOP)
 
 # Botão de envio
-submit = Button(frameInicial, text='SUBMIT', command= lambda:
-enviarFormulario(username.get(),password.get()))
-submit.pack(pady=15, padx=15, side=TOP)
+envio = Button(frameInicial, text='ENVIAR', command= lambda:
+enviarFormulario(usuario.get(),senha.get()))
+envio.pack(pady=15, padx=15, side=TOP)
 # Fim do frame inicial #
 
 # Frame Principal #
@@ -108,17 +128,17 @@ codigo.pack(pady=15, padx=15, side=TOP)
 
 # Lista com as categorias dos produtos
 funcoesList = [
-    'Açougue',
-    'Bebida',
-    'Aves',
-    'Bazar',
-    'Frios',
-    'Higiene',
-    'Hortifruti',
-    'Mercearia',
-    'Padaria',
-    'Pescados',
-    'Eletrotônico'
+    'Escritório',
+    'Arte',
+    'Informática',
+    'Papel',
+    'Escolar',
+    'Mochila',
+    'Presente',
+    'Cadernos',
+    'Jogos',
+    'Embalagens',
+    'Brinquedo'
 ]
 
 # Menu com as categorias dos produtos
@@ -128,7 +148,7 @@ funcao.pack(pady=0, side=TOP)
 
 # Botão de confirmação
 confirmarButton = Button(frameProduto, text='CONFIRMAR', command= lambda:
-supermarket.registerProduct(stringCodigo.get(), preco.get(), nome.get(), stringFuncao.get()))
+cadastraProduto())
 confirmarButton.pack(pady=15, side=TOP)
 
 # Botão para voltar ao menu principal
@@ -138,8 +158,13 @@ voltarButton.pack(pady=15, side=TOP)
 # Fim do frame de cadastro de produtos #
 
 # Frame de consulta de produtos #
+# Título do campo de busca
+nomeString = StringVar(value='Digite o código do produto:')
+nomeLabel = Label(frameConsulta, textvariable=nomeString)
+nomeLabel.pack(pady=1, padx=15, side=TOP)
+
 # Campo de código do produto para busca
-stringProduto = StringVar(value='Digite o código')
+stringProduto = StringVar()
 codigo = Entry(frameConsulta, textvariable=stringProduto)
 codigo.pack(pady=15, padx=15, side=TOP)
 
@@ -163,10 +188,15 @@ precoString = StringVar()
 precoLabel = Label(frameConsulta, textvariable=precoString)
 precoLabel.pack(pady=1, padx=15, side=TOP)
 
+# Label com o preço do produto
+brindeString = StringVar()
+brindeLabel = Label(frameConsulta, textvariable=brindeString)
+brindeLabel.pack(pady=1, padx=15, side=TOP)
+
 # Botão de envio
 enviarButton = Button(frameConsulta, text='ENVIAR', command= lambda:
 retornaInfo(stringProduto.get(), nomeString, codigoString, categoriaString, precoString))
-enviarButton.pack(pady=0, padx=15, side=TOP)
+enviarButton.pack(pady=14, padx=15, side=TOP)
 
 # Botão para voltar ao menu principal
 voltarButton = Button(frameConsulta, text='VOLTAR', command= lambda:
